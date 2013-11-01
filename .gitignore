@@ -1,0 +1,10 @@
+
+.cache
+.DS_Store
+.poly-cache
+.sass-cache
+.termrc
+.vagrant/
+Vagrantfile
+
+*.gem

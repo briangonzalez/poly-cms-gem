@@ -1,0 +1,23 @@
+
+header{
+
+  border-bottom: 1px solid $lightgrey;
+  text-align: center;
+  padding: rhythm(10) 0;
+
+  img{
+    height: rhythm(12);
+
+    @include respond-to($breakpoint-1) {
+      height: rhythm(16);
+    }
+  }
+
+  h3{
+    display: block;
+    color: lighten($base-font-color, 20%);
+    font-weight: 300;
+    @include super-rhythm(1,0,0,0,18px);
+  }
+
+}

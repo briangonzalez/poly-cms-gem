@@ -1,0 +1,39 @@
+
+@import "compass/typography/vertical_rhythm";
+@import "compass/layout/grid-background";
+
+@include establish-baseline;
+
+body{
+  font-family: $base-font-family;
+  color: $base-font-color;
+  padding: 0;
+
+  @include adjust-leading-to($base-line-mult);   // $base-line-height * $base-line-mult = 24px 
+  @include border-box-sizing;
+
+  @include respond-to( $breakpoint-3 ) {
+    padding: rhythm(10) 0;
+  }
+}
+
+.container{
+  max-width: 40em;
+
+  &.main{
+    padding-top: rhythm($base-line-mult);
+    padding-bottom: rhythm($base-line-mult);
+    @include border-radius(2px);
+    // border: 1px solid $lightgrey - 10;
+    background: white;
+    @include border-radius( 1px );
+  }
+
+}
+
+hr{
+  height: 1px;
+  border-width: 0;
+  margin: rhythm($base-line-mult + 2) 0;
+  box-shadow: 0 1px 0 $lightgrey;
+}

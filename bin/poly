@@ -1,0 +1,88 @@
+#!/usr/bin/env ruby
+require "thor"
+require "fileutils"
+
+ROOT        = File.expand_path("../..", __FILE__)
+CONFIG_RU   = File.join( ROOT, "config.ru")
+SAMPLE_DIR  = File.join( ROOT, "sample")
+GEMFILE     = File.join( ROOT, "Gemfile")
+
+class PolyCLI < Thor
+
+  # -----------------------------------------------------------------------------------------------------------
+  # Start Task
+  # -----------------------------------------------------------------------------------------------------------
+  desc "start", "Startup Poly server for local viewing. (use --port to specify your own port)"
+  method_options :rerun => :false
+  def start(args = "")
+    cl_opts = args
+    thin_string   = "BUNDLE_GEMFILE='#{GEMFILE}' thin start -R #{CONFIG_RU} #{cl_opts}"
+
+    puts "\n** Starting Poly\n"
+
+    if options[:rerun]
+      puts "** (rerun enabled)"
+      system "rerun '#{thin_string}' --no-growl"
+    else
+      puts "** (rerun disabled)"
+      system "#{thin_string}"
+    end
+
+  end
+
+  # -----------------------------------------------------------------------------------------------------------
+  # Init Task
+  # -----------------------------------------------------------------------------------------------------------
+  desc "init", "Initialize new Poly project"
+  method_options :port => :integer
+  def init
+    puts "\n** Creating new Poly instance"
+    
+    found = []
+    Dir.foreach( SAMPLE_DIR ).each do |file|
+      next if ['.', '..', '.DS_Store'].include? file
+      found << file if File.exists? file
+    end
+
+    raise "** Cannot continue! The following files would be deleted: #{found.join(',')}\n\n" if !found.empty?
+
+    # Copy all of the files.
+    puts "** Copying files"
+    system "cp -r #{SAMPLE_DIR}/.cabi-data ."
+    system "cp -r #{SAMPLE_DIR}/* ."
+
+    puts "** Success!"
+  end
+
+  # -----------------------------------------------------------------------------------------------------------
+  # Clean Task
+  # -----------------------------------------------------------------------------------------------------------
+  desc "clean", "Clean current directory of Poly-related files & directories"
+  method_options :force => :false
+  def clean
+    puts "\n** Cleaning: #{Dir.pwd}."
+    
+    if options[:force]
+      puts "** About to destroy..."
+      Dir.foreach( SAMPLE_DIR ).each do |file|
+        next if ['.', '..', '.DS_Store'].include? file
+        FileUtils.rm_rf(File.basename(file)) if File.exists?(file)
+      end
+    else
+      puts "** Ooops! Not cleaning without --force. Files & dirs **will** be harmed."
+    end
+
+  end
+
+  # -----------------------------------------------------------------------------------------------------------
+  # Theme Task
+  # -----------------------------------------------------------------------------------------------------------
+  desc "theme", "Install base theme or theme from git"
+  def theme
+    # install base theme or install
+    # theme from  
+  end
+
+end
+
+PolyCLI.start

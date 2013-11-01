@@ -1,0 +1,34 @@
+
+.login-box{
+  position: absolute;
+  width: 50%;
+  min-width: 300px;
+  top: 50%; left: 50%;
+  @include transform( translate(-50%, -50%) );
+  text-align: center;
+  padding: rhythm(6);
+
+  @include respond-to($breakpoint-1) {
+    border: none;
+  }
+
+  h1      { 
+    margin: 0;
+    @include adjust-font-size-to(60px);
+    @include super-rhythm(2,0,0,0, 60px);
+  }
+  
+  h2{
+    font-weight: 300;
+    @include super-rhythm(8,0,0,4, 32px);
+  }
+
+  img     { width: 50px; }
+  button  { 
+    width: 90%;
+    max-width: 200px;  
+    @include super-rhythm(0,2,2,0, 14px);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+}

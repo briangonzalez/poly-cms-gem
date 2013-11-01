@@ -1,0 +1,4 @@
+
+- indent_level = 10
+%li{ style: "padding-left: #{level*indent_level if level > 0}px", data: { type: item[1], id: item[0], base: item[2], level: level } }
+  = item[2]

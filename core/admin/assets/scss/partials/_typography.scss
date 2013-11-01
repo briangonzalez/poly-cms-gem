@@ -1,0 +1,15 @@
+
+
+p{
+    @include super-rhythm($base-line-mult, 0, 0, $base-line-mult, $base-font-size);
+    @include adjust-leading-to(5);
+}
+
+// Loop over each heading, h1-h6, and setup their
+// font size, line height, and padding.
+@for $i from 1 through 6 {
+  h#{$i} {
+    font-family: $base-heading-font;
+    @include super-rhythm($base-line-mult, 0, 0, $base-line-mult, nth($headings, $i) )
+  }
+}

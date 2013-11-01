@@ -1,0 +1,15 @@
+%html{ data: { type: @page.type, path: @page.path } }
+  %head
+    = partial "head"
+
+  %body
+    .container.main
+      = partial "header"
+
+      %div{ role: "main" }
+        %h1= @page.setting('title')  || 'Untitled'
+        %p=  @page.setting('data')   || 'No date given'
+
+        = yield
+
+      = partial "footer"

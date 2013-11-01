@@ -1,0 +1,22 @@
+---
+title:    Home
+publish:  true
+date:     April 19, 1775
+---
+
+.posts
+  - posts.each do |p|
+
+    %article
+      / The title
+      %h1= p.setting('title') || "Untitled"
+      
+      / The date
+      %strong
+        %small= p.setting('date') || "No date given"
+
+      / The content
+      = truncate p.content, 100
+      
+      %h4
+        %a{ href: p.path }= "Read more &raquo;"

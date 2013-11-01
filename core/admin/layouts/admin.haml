@@ -1,0 +1,67 @@
+/ The head.
+= admin_partial "_head.haml"
+
+/ The body.
+%body
+
+  - if logged_in? and !params[:force_login]
+    .content.out
+      .inner
+        .editor-wrap
+
+          %textarea#editor
+            No file loaded.
+
+          .top-bar
+            %img.action.open-drawer{ src: "/admin/images/icons/handle.svg" }
+            %img.action.logout.right{ src: "/admin/images/icons/logout.svg", title: 'Logout' }
+            %img.action.git.right{ src: "/admin/images/icons/prompt.svg", title: 'Git commander' }
+            %img.action.cache.right{ src: "/admin/images/icons/cache-clear.svg", title: 'Clear the cache' }
+            %img.action.save.right{ src: "/admin/images/icons/save.svg", title: 'Save' }
+
+          .bottom-bar
+            %span
+              %select.font-size{ title: 'Font-size' }
+                - (8..20).each do |size|
+                  %option{ selected: size == 12 ? "selected" : false }
+                    = "#{size}px"        
+
+            %span
+              %select.mode{ title: 'Editor Mode' }
+                - editor_modes.each do |mode|
+                  %option{ class: "cm-#{mode}" }
+                    = mode
+
+            %span.file 
+              No file selected
+            %span.save.hidden Save
+
+    .drawer
+      .inner
+        .top-bar
+          %img.action.new{ src: "/admin/images/icons/new.svg", title: "New" }
+          %img.action.delete{ src: "/admin/images/icons/delete.svg", title: "Delete" }
+          %img.action.move{ src: "/admin/images/icons/move.svg", title: "Move" }
+          %img.action.refresh{ src: "/admin/images/icons/refresh.svg", title: "Refresh file tree" }
+
+        .file-tree
+          = admin_partial "_tree.haml"
+
+    .poly-logo
+      %img{ src: "/admin/images/poly-small.svg" }
+      = @email || "Development"
+
+    .git-commander-wrap
+      .commander
+        .inner
+          %input.input{ placeholder: 'type git command here, "help" for options', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off'  }
+          %textarea.output{ placeholder: 'output', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off' }
+      .overlay
+
+  - else
+    .login-box
+      %img{ src: "/admin/images/poly-small.svg" }
+      %h1 poly
+      %h2 Please login to continue.
+      %button.login
+        Login

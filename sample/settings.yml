@@ -1,0 +1,21 @@
+# A name and description for your site.
+name:         Poly
+description:  A simple way to manage your content.
+
+# The URL the site will live at. This is needed to tell 
+# Persona where you are logging in to.
+url: http://trypoly.io
+
+# Who writes here?
+author: Author of Site
+
+# Which theme do you want to use?
+theme: base
+
+# Do you have a google analytics ID? If so, paste it here.
+google_analytics: UA-XXXXX-X
+
+# An array of emails who can login and 
+# edit content in this app.
+authorized_emails:
+  - me@briangonzalez.org

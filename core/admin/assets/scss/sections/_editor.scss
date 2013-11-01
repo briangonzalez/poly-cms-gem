@@ -1,0 +1,274 @@
+
+$z-editor:            10;
+$drawer-width:        280px;
+$top-bar-height:      rhythm(3);
+$editor-top-padding:  rhythm(14);
+$drawer-top-padding:  rhythm(8);
+
+body, html{
+  overflow: hidden;
+}
+
+// Top bar styles, which are shared between the top bar 
+// in the content area as well as the top bar in the 
+// drawers.
+.content .top-bar, .drawer .top-bar{
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  z-index: $z-editor + 1;
+  border-bottom: 1px solid $lightgrey - 10;
+  padding: rhythm(2);
+  @include clearfix;
+
+  .action{
+    vertical-align: middle;
+    cursor: pointer;
+    height: $top-bar-height;
+    opacity: 0.6;
+    margin: 0;
+    float: left;
+
+    &.save{ display: none; }
+    &.save.unsaved{ display: inline; }
+
+    &:hover{ opacity: 1; }
+    &.right{ 
+      float: right; 
+      margin-left: 10px;
+    }
+  }
+}
+
+// Content
+// This is where the editor lives as well as the main 
+// top bar, which has all of our actions in it.
+.content{
+  position: fixed;
+  top: 0; right: 0; left: 0; bottom: 0;
+  z-index: 20;
+  box-shadow: -5px 0px 10px rgba(0,0,0,.3);
+  @include transition(transform 0.2s ease);
+  @include transform( translate3d(0,0,0) ); 
+
+  &.out{ @include transform( translate3d( $drawer-width, 0, 0) ) }
+
+    .inner{
+      position: relative;
+
+      .editor-wrap{
+        z-index: $z-editor;
+        overflow: hidden;
+
+        .Codemirror, #editor{
+          padding: $editor-top-padding rhythm(6) rhythm(6) rhythm(6);
+          width: 100%; height: 100%;
+          z-index: $z-editor - 2;
+          @include adjust-font-size-to(12px);
+          @include adjust-leading-to(5);
+          &.size-8 { font-size: 8px }
+          &.size-9 { font-size: 9px }
+          &.size-10{ font-size: 10px; }
+          &.size-11{ font-size: 11px; }
+          &.size-12{ font-size: 12px; }
+          &.size-13{ font-size: 13px; }
+          &.size-14{ font-size: 14px; }
+          &.size-15{ font-size: 15px; }
+          &.size-16{ font-size: 16px; }
+          &.size-17{ font-size: 17px; }
+          &.size-18{ font-size: 18px; }
+          &.size-19{ font-size: 19px; }
+          &.size-20{ font-size: 20px; }
+        }
+
+        .bottom-bar{
+          position: absolute;
+          bottom: 0; left: 0;
+          width: 100%;
+          z-index: $z-editor + 1;
+          text-align: right;
+          padding: 0;
+          @include clearfix;
+
+          span{
+            float: right;
+            font-weight: 400;
+            margin: 0;
+            padding: 0 8px;
+
+            &, select{ 
+              font-size: 10px; 
+              line-height: rhythm(6); 
+              cursor: pointer; color: $lightgrey - 80;
+            }
+
+            select{ 
+              -webkit-appearance: none; appearance: none;
+              background: none;
+              border: none;
+              display: inline-block;
+              outline: none;
+            }
+
+            &:hover{  };
+            &.file{
+              float: left;
+              &.unsaved:after{ content: '*'; }
+            }
+          }
+        }
+      }
+    }
+}
+
+// Drawer
+// This is where the file tree lives, as well
+// as a few other actions that affect 
+// file editing.
+.drawer{        
+  position: fixed;
+  top: 0; left: 0;
+  height: 100%;
+  width: $drawer-width;
+  border-right: 1px solid $lightgrey - 20;
+  z-index: $z-editor;
+  background: $darkgrey; 
+
+    .inner{
+      width: 100%; height: 100%;
+      position: relative;
+
+      .top-bar{ 
+        background: $darkgrey - 10;
+        border-bottom: 1px solid $darkgrey - 20;
+        img{ margin-right: 10px; }
+      }
+
+      .file-tree{
+          padding-top: $drawer-top-padding;
+          width: 100%; height: 100%;
+          position: absolute;
+          top: 0; left: 0;
+
+          overflow: scroll;
+          z-index: $z-editor - 1;
+          font-weight: 400;
+          @include transform( translate3d(0,0,0) );
+
+          &.out { 
+            left: 0; cursor: default; 
+            .inner .close { display: block; }
+            .inner li     { display: block; }
+          }
+
+          ul{ list-style-type: none; margin: 0; padding: 0; }
+          ul, li{ margin: 0; padding: 0; }
+
+          li{
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 300;
+            padding: rhythm(1);
+            color: $lightgrey - 80;
+            border-bottom: 1px solid $darkgrey + 3;
+            @extend .disable-select;
+            @include super-rhythm(0,1,1,0,12px);
+
+            &:hover, &.loaded{
+              color: $lightgrey - 10;
+              background: $darkgrey - 10;
+              &:before{ opacity: 1; }
+            };
+
+            &[data-type='file']                 { }
+            &[data-type='dir']           {  }
+            &:before                            { content: "▸"; width: 20px; text-align:center; display: inline-block; color: $darkgrey + 30; }
+            &.expanded:before                   { content: "▾" }
+            &.new:before                        { content: "" }
+            &.close:before                      { content: "" }
+            &[data-type='file']:before          { content: ""; } 
+            &.loaded[data-type='file']:before   { content: "⇢"; color: white; } 
+          }
+
+      }
+    }
+}
+
+// Git Commander
+// This little guy lets us issue git commands.
+.git-commander-wrap{
+
+  &.shown{
+    .commander,
+    .overlay{ display: block; }
+  }
+
+  .commander{
+    display: none;
+    position: fixed;
+    bottom: 30px; right: 30px; left: 30px; top: 30px;
+    z-index: $z-editor + 11;
+    border: 3px solid $darkgrey;
+
+    .inner{
+      position: relative;
+      width: 100%; height: 100%;
+
+      input, textarea{
+        float: left;
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 12px;
+        color: white;
+        font-family: Menlo, Courier, monospace;
+        @include border-radius(0)
+      }
+
+      input{
+        resize: none;
+        padding: rhythm(2);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        color: black;
+        background: white;
+        border-top: 3px solid $lightgrey;
+        @include placeholder(){ color: black; }
+      }
+
+      textarea{
+        height: 100%;
+        padding: rhythm(3);
+        background: $darkgrey - 5;
+        overflow: scroll;
+      }
+    }
+  }
+
+  .overlay{
+    display: none;
+    position: fixed;
+    bottom: 0; right: 0; left: 0; top: 0;
+    z-index: $z-editor + 10;
+    background: rgba(white, 0.8);
+  }
+}
+
+// The small logo on the bottom left 
+// of the page
+.poly-logo{
+  position: fixed;
+  bottom: 5px;
+  left: 10px;
+  z-index: $z-editor;
+  cursor: pointer;
+  font-size: 10px;
+  @include filter( invert(100%) );
+
+  img{ 
+    height: 12px; 
+    vertical-align: middle; 
+    margin-right: 5px;
+  }
+}

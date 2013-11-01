@@ -1,0 +1,9 @@
+%footer
+  = data("other:nav:test.haml") 
+  %ul  
+    - if data("other:nav:links")
+      - data("other:nav:links").each do |link|
+        %li
+          %a{ href: link[1] }= link[0]
+
+= partial "ga"

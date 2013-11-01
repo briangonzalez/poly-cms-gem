@@ -1,0 +1,11 @@
+
+html[data-type="page"], 
+html[data-type="post"]{
+
+  [role='main']{
+    padding: rhythm(8) 0;
+    
+    h1{ margin-top: 0; }
+  }
+
+}

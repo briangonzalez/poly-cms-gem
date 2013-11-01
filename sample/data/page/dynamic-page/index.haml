@@ -1,0 +1,14 @@
+---
+title:    Some page title!
+publish:  true
+layout:   foo
+cache:    false
+---
+
+%h1 Dynamic Page!
+
+%h2 The following time should be correct because this page is generated on every request.
+
+%h3 Current Time:
+%p
+  = Time.now

@@ -1,0 +1,3 @@
+%ul
+  - files('*').each do |item|
+    = admin_partial "_treeitem.haml", { item: item, level: 0 }

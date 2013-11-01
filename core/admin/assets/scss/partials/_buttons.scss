@@ -1,0 +1,9 @@
+
+button, a.button{
+  border: 2px solid $darkgrey;
+  display: inline-block;
+  background: white;
+  outline: none;
+  letter-spacing: 2px;
+  @include border-radius(2px);
+}

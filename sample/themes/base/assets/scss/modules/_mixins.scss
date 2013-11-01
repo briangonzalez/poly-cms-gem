@@ -1,0 +1,11 @@
+
+// All mixins here.
+
+@mixin respond-to($breakpoint) {
+  @media only screen and (min-width: $breakpoint) { @content; }
+}
+
+@mixin super-rhythm( $leader, $padding-leader, $padding-trailer, $trailer, $font-size: $base-font-size ){
+  @include adjust-font-size-to( $font-size );
+  @include rhythm( $leader, $padding-leader, $padding-trailer, $trailer, $font-size  );
+}

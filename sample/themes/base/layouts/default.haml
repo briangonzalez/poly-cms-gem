@@ -1,0 +1,14 @@
+
+%html{ data: { type: page_type, path: page_path } }
+
+  %head
+    = partial "head"
+
+  %body
+    .container.main
+      = partial "header"
+      
+      %div{ role: "main" }
+        = yield
+
+      = partial "footer"

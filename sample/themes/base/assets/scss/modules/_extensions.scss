@@ -1,0 +1,13 @@
+
+// All classes to extend here.
+.container{
+  @include container;
+  padding-left: $grid-padding;
+  padding-right: $grid-padding;
+  width: 100%;
+  max-width: 100%; 
+}
+
+.clearfix{
+  @include clearfix;
+}

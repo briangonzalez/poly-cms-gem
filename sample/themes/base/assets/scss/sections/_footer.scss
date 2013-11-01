@@ -1,0 +1,22 @@
+footer{
+  border-top: 1px solid $lightgrey;
+  padding: rhythm($base-line-mult) 0;
+
+  $font-size: 14px;
+  @include adjust-font-size-to( $font-size );
+  @extend .clearfix;
+
+  ul{
+    margin: 0;
+    padding: 0;
+    float: right;
+    
+    li{ 
+      text-align: right;
+      list-style-type: none; 
+      float: left;
+      margin-left: rhythm(2);
+    }
+  }
+
+}

@@ -1,0 +1,33 @@
+
+// Modules
+@import "modules/all";
+
+// Font weights
+$light: 100;
+$regular: 400;
+$bold: 600;
+
+// Base Font
+$base-font-family: 'Lato', sans;
+$base-heading-font: 'Lato', sans;
+$base-font-weight: $regular;
+$base-font-color: $darkgrey;
+$base-font-size: 18px;
+$base-line-height: 6px;
+$base-line-mult: 4;
+
+// Headings
+$h1: 32px;
+$h2: 24px;
+$h3: 18px;
+$h4: 16px;
+$h5: 13px;
+$h6: 12px;
+$headings: $h1, $h2, $h3, $h4, $h5, $h6;
+
+// Breakpoints
+$breakpoint-1:      480px;
+$breakpoint-2:      600px;
+$breakpoint-3:      768px;
+$breakpoint-4:      992px;
+$breakpoint-5:      1382px;

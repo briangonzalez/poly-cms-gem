@@ -1,0 +1,14 @@
+---
+title:    Some page title!
+publish:  true
+layout:   foo
+cache:    true            # true by default.
+---
+
+%h1 Static Page!
+
+%h2 The following time should not be correct because this page is cached.
+
+%h3 Current Time:
+%p
+  = Time.now

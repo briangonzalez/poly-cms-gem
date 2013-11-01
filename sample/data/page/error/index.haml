@@ -1,0 +1,8 @@
+---
+title:    An error occurred
+---
+
+%h1= @page.setting('title')
+
+%pre
+  = env["sinatra.error"]

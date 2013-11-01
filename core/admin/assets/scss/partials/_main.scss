@@ -1,0 +1,14 @@
+
+@import "compass/typography/vertical_rhythm";
+@import "compass/layout/grid-background";
+
+@include establish-baseline;
+
+body{
+  font-family: $base-font-family;
+  color: $base-font-color;
+  padding: 0;
+
+  @include adjust-leading-to($base-line-mult);   // $base-line-height * $base-line-mult = 24px 
+  @include border-box-sizing;
+}
