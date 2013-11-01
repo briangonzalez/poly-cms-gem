@@ -21,7 +21,7 @@ gem 'redcarpet',            '3.0.0',          :require => 'redcarpet'
 gem 'html_truncator',       '0.3.1',          :require => 'html_truncator'
 
 # Datastore
-gem 'cabi',                 '>=0.1.8',        :require => 'cabi'
+gem 'cabi',                 '>=0.1.9',        :require => 'cabi'
 
 # Misc.
 gem "netaddr",              '1.5.0',          :require => 'netaddr'
