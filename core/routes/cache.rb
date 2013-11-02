@@ -27,16 +27,16 @@ module Poly
       before do
         if Sinatra::Base.production?
         
-          file = Poly::Lib::CachedFile.find(request.path_info)
+          # file = Poly::Lib::CachedFile.find(request.path_info)
           
-          if file
-            if (env['HTTP_PRAGMA'] == 'no-cache') or request.path.match Regexp.new(CACHE_BLACKLIST.join("|"))
-              # don't send cached file.
-            else
-              last_modified File.mtime(file)
-              send_file(file)
-            end
-          end
+          # if file
+          #   if (env['HTTP_PRAGMA'] == 'no-cache') or request.path.match Regexp.new(CACHE_BLACKLIST.join("|"))
+          #     # don't send cached file.
+          #   else
+          #     last_modified File.mtime(file)
+          #     send_file(file)
+          #   end
+          # end
           
         end
       end

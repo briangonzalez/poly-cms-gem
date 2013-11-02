@@ -26,7 +26,10 @@ module Poly
         read(path)       
         @path = path
 
-        raise Sinatra::NotFound if (@raw.nil? and !quiet)
+        if (!@raw and !quiet)
+          @html = false
+          return
+        end
 
         @scope = current_scope
         @scope.instance_variable_set :@page, self
@@ -36,7 +39,7 @@ module Poly
       end
 
       def read(path)
-        @raw  ||= Cabi.read( Poly::Lib::Path.path(path) ) || Cabi.read( Poly::Lib::Path.page_path(path) )
+        @raw  ||= Cabi.read( Poly::Lib::Path.path(path) ) || Cabi.read( Poly::Lib::Path.page_path(path) ) || false
       end
 
       def parse_else

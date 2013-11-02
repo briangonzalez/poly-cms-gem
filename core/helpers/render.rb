@@ -11,7 +11,11 @@ module Poly
         def render_page(path)
           # Grab the page & render it.
           page = Poly::Lib::Page.new(path, self)
-          page.html
+          if page.html
+            page.html
+          else 
+            raise Sinatra::NotFound
+          end
         end
 
         def partial(path, locals={})
