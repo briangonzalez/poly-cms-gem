@@ -37,7 +37,6 @@ require( [
       new MainView().render();
       new EditorView().render();
       new GitCommanderView().render();
-      FastClick.attach(document.body);
     });
 
   }

@@ -2,7 +2,8 @@
 define([
     'backbone',
     'routes',
-    'app/file-ext'
+    'app/file-ext',
+    'fastclick'
   ], 
   function (Backbone, routes, extensions) {
 
@@ -10,6 +11,7 @@ define([
       el:           'body',
       events:       {
         "keyup .CodeMirror":                          "contentChanged",
+        'click .CodeMirror':                          "fastClick",
         'click .content':                             "toggleDrawer",
         'click .content .top-bar .open-drawer':       "toggleDrawer",
         'click .content .top-bar .logout':            "logout",
@@ -39,9 +41,11 @@ define([
             readOnly: 'nocursor',
             placeholder: "No content to display.",
             indentUnit: 2,
+            click: function(){ alert(f) },
             extraKeys: { Tab: this.betterTab.bind(this) }
           });
 
+          this.fastClick();
           this.delegateEvents();
         }
       },
@@ -50,6 +54,11 @@ define([
         this.loadedFile;
         this.altered    = false;
         this.bindSave();
+      },
+
+      fastClick: function(){
+        this.$el.find('.CodeMirror *').addClass('needsclick')
+        FastClick.attach(document.body);
       },
 
       changeFontSize: function(ev){
