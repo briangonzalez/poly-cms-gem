@@ -3,7 +3,7 @@ require 'bundler'
 
 Gem::Specification.new do |gem|
   gem.name                  = 'poly-cms'
-  gem.version               = '0.1.2'
+  gem.version               = '0.1.3'
   gem.summary               = 'A simple way to manage your content.'
           
   gem.description           = <<-EOS
