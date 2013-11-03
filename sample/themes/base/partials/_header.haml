@@ -2,4 +2,7 @@
 %header
   %img{ src: '/images/poly.svg' }
   %h3= site_setting('description')
+  .links
+    - data("other:nav:links").each do |link|
+      %a{ href: link[1] }= link[0]
 
