@@ -14,7 +14,7 @@ module Poly
           if page.html
             page.html
           else 
-            raise Sinatra::NotFound
+            status 404
           end
         end
 
