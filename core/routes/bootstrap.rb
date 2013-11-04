@@ -36,7 +36,7 @@ module Poly
       helpers   Poly::CMS::Helpers::Render
       helpers   Poly::CMS::Helpers::Truncate
 
-      enable :sessions
+      use Rack::Session::File
 
       configure do
         set :static,          true

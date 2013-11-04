@@ -32,7 +32,7 @@ define([
           var $target = $(e.target);
 
           $.post( routes.git.submit, { cmd: $target.val() }, function(d){
-            var msg = d.message.length == 0 ? 'Not output.' : d.message
+            var msg = (d && d.message && d.message.length == 0) ? 'No output.' : d.message
             self.$el.find('.output').val('').val( msg )
           });
 
