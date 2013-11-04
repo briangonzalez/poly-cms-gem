@@ -36,7 +36,7 @@ module Poly
           data.to_json
         else
           puts "** Error verifying user: #{data.inspect}"
-          return { state: "error" }.to_json
+          return { state: "error", data: data }.to_json
         end
 
       end
