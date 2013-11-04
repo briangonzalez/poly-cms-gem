@@ -6,10 +6,15 @@ header{
   padding-top: rhythm(10);
 
   img{
-    height: rhythm(12);
+    height: rhythm(6);
 
+    @include respond-to($breakpoint-1) { height: rhythm(12); }
+  }
+
+  h1{
+    @include super-rhythm(2, 0, 0, $base-line-mult,50px);
     @include respond-to($breakpoint-1) {
-      height: rhythm(16);
+      @include super-rhythm(2, 0, 0, $base-line-mult,70px);
     }
   }
 
