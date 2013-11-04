@@ -66,8 +66,9 @@
       %button.login
         Login
 
-  :javascript
     - if logged_in?
-      var POLY_LOGGED_IN = true;
+      :javascript
+        var POLY_LOGGED_IN = true;
     - else
-      var POLY_LOGGED_IN = false;
+      :javascript
+        var POLY_LOGGED_IN = false;
