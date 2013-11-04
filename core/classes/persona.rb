@@ -11,7 +11,7 @@ module Poly
       def self.verify(params, session, request)
         post_params = {
           :assertion => params["assertion"],
-          :audience  => request.host_with_port,
+          :audience  => self.audience,
         }
 
         # Always do a simple verify if development.
@@ -36,7 +36,7 @@ module Poly
           data.to_json
         else
           puts "** Error verifying user: #{data.inspect}"
-          return { state: "error", data: data }.to_json
+          return { state: "error", data: data, audience: request.host_with_port }.to_json
         end
 
       end
@@ -48,6 +48,10 @@ module Poly
 
       def self.authorized?(email)
         Poly::Lib::Settings.instance.settings['authorized_emails'].include?(email)
+      end
+
+      def self.audience
+        Poly::Lib::Settings.instance.settings['audience']
       end
 
     end

@@ -2,9 +2,8 @@
 name:         Poly
 description:  A simple way to manage your content.
 
-# The URL the site will live at. This is needed to tell 
-# Persona where you are logging in to.
-url: http://trypoly.io
+# The URL the site will live at. 
+url: http://your-site.com
 
 # Who writes here?
 author: Author of Site
@@ -19,3 +18,7 @@ google_analytics: UA-XXXXX-X
 # edit content in this app.
 authorized_emails:
   - me@briangonzalez.org
+
+# Persona, Mozilla's login platform, must know
+# which URL your site will live at.
+audience: http://*.your-site.com
