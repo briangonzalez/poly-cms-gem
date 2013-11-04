@@ -45,11 +45,12 @@ define([
     },
 
     verifyAssertion: function(assertion){
-      $.post( routes.admin.verify, { assertion: assertion }, function onSuccess(data) {
-        console.log("** Assertion response:", data)
-        if (data.status === 'okay')
-          window.location = '/admin'
-      });
+      $.post( routes.admin.verify, { assertion: assertion, audience: location.host }, 
+        function onSuccess(data) {
+          console.log("** Assertion response:", data)
+          if (data.status === 'okay')
+            window.location = '/admin'
+        });
     }
 
   });
