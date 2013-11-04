@@ -2,9 +2,24 @@
 # Require Poly's libs.
 Dir[Poly::CORE + "/**/*.rb"].each {|file| require file }
 
-# Require user plugins.
+# Define a dumbed-down Bootstrap module.
+module Poly
+  module CMS
+    module Bootstrap
+      extend Sinatra::Extension
+
+      def self.register_module(mod)
+        register(mod)
+      end
+
+    end
+  end
+end
+
+# Then load in plugins.
 Cabi.file('plugins:**/*.rb').each{ |file| require file }
 
+# Then load in the larger version of the bootstrap.
 module Poly
   module CMS
     module Bootstrap
