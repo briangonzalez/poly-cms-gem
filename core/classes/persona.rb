@@ -11,7 +11,7 @@ module Poly
       def self.verify(params, session, request)
         post_params = {
           :assertion => params["assertion"],
-          :audience  => self.audience,
+          :audience  => request.host,
         }
 
         # Always do a simple verify if development.
@@ -51,7 +51,7 @@ module Poly
       end
 
       def self.audience
-        Poly::Lib::Settings.instance.settings['audience']
+        # Poly::Lib::Settings.instance.settings['audience']
       end
 
     end
