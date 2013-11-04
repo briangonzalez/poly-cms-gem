@@ -48,7 +48,7 @@ define([
       $.post( routes.admin.verify, { assertion: assertion, audience: location.host }, 
         function onSuccess(data) {
           console.log("** Assertion response:", data)
-          if (data.status === 'okay')
+          if ( data.status === 'okay' && !POLY_LOGGED_IN )
             window.location = '/admin'
         });
     }

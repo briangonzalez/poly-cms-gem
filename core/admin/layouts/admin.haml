@@ -58,6 +58,9 @@
           %textarea.output{ placeholder: 'output', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off' }
       .overlay
 
+    :javascript
+      var POLY_LOGGED_IN = true;
+
   - else
     .login-box
       %img{ src: "/admin/images/poly-small.svg" }
