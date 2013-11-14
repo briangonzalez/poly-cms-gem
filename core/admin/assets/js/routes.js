@@ -10,7 +10,8 @@ define(function () {
           dlt:    "/admin/file/delete",
           move:   "/admin/file/move",
           files:  "/admin/files",
-          tree:   "/admin/file/tree"
+          tree:   "/admin/file/tree",
+          upload: "/admin/file/upload"
         },
         git: {
           submit: '/admin/git'

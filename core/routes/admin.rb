@@ -4,6 +4,7 @@ module Poly
     module Admin
       extend Sinatra::Extension
 
+      UPLOADS_PATH         = 'uploads'
       ADMIN_FILES_PATH    = File.join( Poly::CORE, 'admin' )
       ADMIN_LAYOUTS_PATH  = File.join( ADMIN_FILES_PATH, 'layouts'  )
       ADMIN_PARTIALS_PATH = File.join( ADMIN_FILES_PATH, 'partials'  )
@@ -69,6 +70,31 @@ module Poly
 
         content_type :json
         { message: 'ok' }.to_json
+      end
+
+      post '/admin/file/upload' do
+        redirect_if_not_logged_in
+
+        if params.has_key?('files') 
+          # Manual upload
+          files = params[:files]
+        else 
+          # Drag & drop upload
+          files = params.reject{ |key, data|
+              !(data.is_a?(Hash) and data.has_key?(:tempfile))
+            }.values
+        end
+
+        files.each do |file|
+          FileUtils.mv(
+              file[:tempfile],
+              File.join( Poly::CMS::Admin::UPLOADS_PATH, file[:filename] ),
+              { :force => true }
+            )
+        end
+
+        content_type :json
+        { message: "File(s) uploaded: #{files.length}" }.to_json
       end
 
       post '/admin/file/delete' do

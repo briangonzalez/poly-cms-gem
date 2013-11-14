@@ -16,7 +16,8 @@ date:     April 19, 1775
         %small= p.setting('date') || "No date given"
 
       / The content
-      = truncate p.content, 100
+      %p
+        = p.setting('description') || truncate(p.content, 20)
       
       %h4
         %a{ href: p.path }= "Read more &raquo;"

@@ -43,6 +43,7 @@
           %img.action.delete{ src: "/admin/images/icons/delete.svg", title: "Delete" }
           %img.action.move{ src: "/admin/images/icons/move.svg", title: "Move" }
           %img.action.refresh{ src: "/admin/images/icons/refresh.svg", title: "Refresh file tree" }
+          %img.action.upload{ src: "/admin/images/icons/upload.svg", title: "Upload file" }
 
         .file-tree
           = admin_partial "_tree.haml"
@@ -57,6 +58,16 @@
           %input.input{ placeholder: 'type git command here, "help" for options', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off'  }
           %textarea.output{ placeholder: 'output', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off' }
       .overlay
+
+    .upload-overlay
+      %h2.text
+        .buttons
+          %button.manual-upload
+            Toggle Manual Upload
+          %button.close
+            Close
+          %form{ method: 'post', enctype: "multipart/form-data" }
+            %input{ name: 'files[]', type: 'file', multiple: '' }  
 
     :javascript
       var POLY_LOGGED_IN = true;

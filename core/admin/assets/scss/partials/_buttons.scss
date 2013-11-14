@@ -2,8 +2,10 @@
 button, a.button{
   border: 1px solid $darkgrey;
   display: inline-block;
-  background: white;
+  background: transparent;
   outline: none;
   letter-spacing: 2px;
+  padding: 1em;
+  @include super-rhythm(1,1,1,1, 12px);
   @include border-radius(2px);
 }

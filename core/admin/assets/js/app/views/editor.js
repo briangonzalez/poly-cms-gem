@@ -22,12 +22,20 @@ define([
         'click .drawer .top-bar .action.delete':      "deleteFile",
         'click .drawer .top-bar .action.move':        "moveFile",
         'click .drawer .top-bar .action.refresh':     "refreshFileTree",
+        'click .drawer .top-bar .action.upload':      "showFileUploader",
         'click .file-tree li[data-type="dir"]':       "expandDirectory",
         'click .file-tree li[data-type="file"]':      "loadFile",
         'change .bottom-bar select.font-size':        "changeFontSize",
         'change .bottom-bar select.mode':             "changeMode",
         'click .bottom-bar span.file':                "saveFile",
-        'mode-received':                              "setMode"
+        'mode-received':                              "setMode",
+        'keyup':                                      "handleKeyup",
+        'dragenter .upload-overlay':                  "highlightFileUploader",
+        'dragleave .upload-overlay':                  "unhighlightFileUploader",
+        'drop .upload-overlay':                       "uploadFileViaDrop",
+        'click .upload-overlay .close':               "hideFileUploader",
+        'click .upload-overlay .manual-upload':       "toggleManualUploader",
+        'change .upload-overlay form input':          "uploadFileViaManual"
       },
 
       render:       function() {
@@ -54,6 +62,11 @@ define([
         this.loadedFile;
         this.altered    = false;
         this.bindSave();
+
+        // Ignore default dragover.
+        $(document).on('dragover', function(ev){
+          ev.preventDefault()
+        })
       },
 
       fastClick: function(){
@@ -279,6 +292,28 @@ define([
         });
       },
 
+      showFileUploader: function(){
+        this.$el.find('.upload-overlay')
+                .addClass('shown')
+      },
+
+      hideFileUploader: function(){
+        this.$el.find('.upload-overlay')
+                .removeClass('shown');
+        this.$el.find('.upload-overlay form')
+                .hide()
+      },
+
+      highlightFileUploader: function(){
+        this.$el.find('.upload-overlay')
+                .addClass('highlight')
+      },
+
+      unhighlightFileUploader: function(){
+        this.$el.find('.upload-overlay')
+                .removeClass('highlight')
+      },
+
       clearCache: function(){
         $.get( routes.cache.clear, function(){
           alert('Successfully cleared the cache.')
@@ -287,6 +322,10 @@ define([
 
       showGitCommander: function(){
         this.$el.find('.git-commander-wrap').addClass('shown')
+      },
+
+      hideGitCommander: function(){
+        this.$el.find('.git-commander-wrap .overlay').click()
       },
 
       logout: function(){
@@ -302,7 +341,79 @@ define([
           cm.replaceSelection(cm.getOption("indentWithTabs")? "\t":
             Array(cm.getOption("indentUnit") + 1).join(" "), "end", "+input");
         }        
-      }   
+      },   
+
+      handleKeyup: function(ev){
+        if ( ev.which == 27 ) {
+          this.hideFileUploader();
+          this.hideGitCommander();
+        } 
+      },
+
+      uploadFileViaDrop: function(ev){
+        ev.preventDefault();
+        this.unhighlightFileUploader();
+        var files = ev.originalEvent.dataTransfer.files;
+
+        if (files.length > 0) {
+          // Loop over each file, appending it to the 
+          // FormData object
+          var data = new FormData();
+          $.each(files, function(i, file) { 
+            data.append('file-' + i, file); 
+          });
+
+          this.ajaxUploadFile(data)
+        }
+      },
+
+      ajaxUploadFile: function(formData){
+        var self = this;
+        // Grab the old text.
+        var $uploadText = this.$el.find('.upload-overlay .text')
+        var oldHTML = $uploadText.html();
+        var resetUploadText = function(){$uploadText.html(oldHTML) }
+
+        // Then upload the file.
+        $.ajax({
+          data: formData,
+          url: routes.file.upload,  //Server script to process data
+          type: 'POST',
+          xhr: function() {  // Custom XMLHttpRequest
+              var myXhr = $.ajaxSettings.xhr();
+              if(myXhr.upload){ // Check if upload property exists
+                  myXhr.upload.addEventListener('progress', function(d){
+                    $uploadText.text( Math.floor( (d.position/d.total)*100 ) + '%' )
+                  }, false); // For handling the progress of the upload
+              }
+              return myXhr;
+          },
+          beforeSend: function(){
+            $uploadText.text('Please wait...')
+          },
+          success: function(d){
+            self.refreshFileTree()
+            $uploadText.text( d.message )
+            setTimeout(function(){ resetUploadText() }, 1500)
+          },
+          error: function(){
+            $uploadText.text(['Error while uploading'].join(' '))
+            setTimeout(function(){ resetUploadText() }, 1500)
+          },
+          cache: false,
+          contentType: false,
+          processData: false
+        });
+      },
+
+      uploadFileViaManual: function(ev){
+        var data = new FormData( $(ev.target).parent().get(0) );
+        this.ajaxUploadFile(data)
+      },
+
+      toggleManualUploader: function(){
+        this.$el.find('.upload-overlay form').toggle()
+      }
 
     });
 
